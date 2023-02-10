@@ -1,0 +1,15 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: techtalks-tls
+  namespace: default
+spec:
+  dnsNames:
+    - techtalks.devops-consultants.net
+  issuerRef:
+    name: letsencrypt-prod-dns
+    kind: ClusterIssuer
+  secretName: techtalks-tls
+  usages:
+    - digital signature
+    - key encipherment

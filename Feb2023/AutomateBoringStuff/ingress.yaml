@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod-dns
+  name: techtalks
+  namespace: default
+spec:
+  rules:
+    - host: techtalks.devops-consultants.net
+      http:
+        paths:
+          - backend:
+              service:
+                name: podinfo
+                port:
+                  number: 9898
+            path: /
+            pathType: Prefix
+  tls:
+    - hosts:
+        - techtalks.devops-consultants.net
+      secretName: techtalks-tls
