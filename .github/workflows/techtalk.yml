@@ -1,0 +1,34 @@
+name: Demo Secure Remote Access using Teleport
+
+on:
+  workflow_dispatch:
+
+jobs:
+  ssh_access:
+    permissions:
+      id-token: write
+      contents: read
+    name: SSH-Access
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Fetch Teleport binaries
+        uses: teleport-actions/setup@v1
+        with:
+          version: 12.0.2
+
+      - name: Fetch credentials using Machine ID
+        id: auth
+        uses: teleport-actions/auth@v1
+        with:
+          proxy: teleport.devops-consultants.net:443
+          token: github-token
+          certificate-ttl: 1h
+
+      - name: List nodes
+        run: tsh ls
+
+      - name: Check for updates
+        run: tsh ls | grep rpi | awk '{print $1}' | while read node; do echo "Checking ${node} for package updates:"; tsh ssh root@${node} apt update; done

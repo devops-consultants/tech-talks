@@ -1,0 +1,17 @@
+kind: role
+metadata:
+  name: techtalk-demo-kube-access
+version: v5
+spec:
+  allow:
+    kubernetes_labels:
+      # This grants access to any Kubernetes cluster attached to your Teleport
+      # cluster.
+      "*": "*"
+    kubernetes_groups:
+      # This group will be attached to requests made by users with this role
+      # to the Kubernetes API. Configure a cluster role binding that binds this
+      # group to a Kubernetes cluster role to grant privileges to this Teleport
+      # role in the Kubernetes cluster.
+      - techtalk-demo
+  deny: {}
