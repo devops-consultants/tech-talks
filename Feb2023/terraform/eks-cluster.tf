@@ -23,6 +23,13 @@ module "eks" {
 
   aws_auth_accounts = [var.aws_account]
   # aws_auth_roles    = concat(local.eks_sso_auth_roles)
+  aws_auth_users = [
+    {
+      userarn  = "arn:aws:iam::679007892708:user/rcoward"
+      username = "rcoward"
+      groups   = ["system:masters"]
+    },
+  ]
 
   self_managed_node_group_defaults = {
     # create_security_group = false
