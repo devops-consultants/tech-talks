@@ -1,0 +1,38 @@
+chartMode: aws
+clusterName: ${cluster_fqdn}                      # Name of your cluster. Use the FQDN you intend to configure in DNS below.
+kubeClusterName: tech-talks
+installCRDs: true
+operator:
+  enabled: true
+
+aws:
+  region: ${region}                               # AWS region
+  backendTable: ${backend_table}                  # DynamoDB table to use for the Teleport backend
+  auditLogTable: ${events_table}                  # DynamoDB table to use for the Teleport audit log (must be different to the backend table)
+  auditLogMirrorOnStdout: true                    # Whether to mirror audit log entries to stdout in JSON format (useful for external log collectors)
+  sessionRecordingBucket: ${sessions_bucket}      # S3 bucket to use for Teleport session recordings
+  backups: true                                   # Whether or not to turn on DynamoDB backups
+  dynamoAutoScaling: false                        # Whether Teleport should configure DynamoDB's autoscaling.
+highAvailability:
+  replicaCount: 2                                 # Number of replicas to configure
+  requireAntiAffinity: true
+  certManager:
+    enabled: true                                 # Enable cert-manager support to get TLS certificates
+    issuerName: ${issuer}                         # Name of the cert-manager Issuer to use (as configured above)
+    issuerKind: ClusterIssuer
+authentication:
+  type: github
+  connectorName: github
+  localAuth: false
+  
+proxyListenerMode: "multiplex"
+persistence:
+  enabled: true
+  volumeSize: 50Gi
+
+annotations:
+  service:
+    external-dns.alpha.kubernetes.io/hostname: "${cluster_fqdn}, *.${cluster_fqdn}"
+  serviceAccount:
+    eks.amazonaws.com/role-arn: ${iam_role_arn}
+

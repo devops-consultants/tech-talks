@@ -3,7 +3,7 @@ module "eks" {
   version = "19.7.0"
 
   cluster_name                    = local.eks_name
-  cluster_version                 = var.cluster_version
+  cluster_version                 = var.eks_cluster_version
   cluster_endpoint_private_access = true
   cluster_endpoint_public_access  = true
 
@@ -215,38 +215,9 @@ resource "helm_release" "aws_cni" {
   }
 }
 
-# resource "aws_eks_addon" "coredns" {
-#   cluster_name      = module.eks.cluster_name
-#   addon_name        = "coredns"
-#   resolve_conflicts = "OVERWRITE"
-# }
-
-# resource "aws_eks_addon" "kube-proxy" {
-#   cluster_name = module.eks.cluster_name
-#   addon_name   = "kube-proxy"
-# }
-
-# resource "aws_eks_addon" "aws-ebs-csi-driver" {
-#   cluster_name             = module.eks.cluster_name
-#   addon_name               = "aws-ebs-csi-driver"
-#   resolve_conflicts        = "OVERWRITE"
-#   service_account_role_arn = module.iam_assumable_role_aws_ebs_csi_driver.iam_role_arn
-# }
-
-# module "iam_assumable_role_aws_ebs_csi_driver" {
-#   source  = "terraform-aws-modules/iam/aws//modules/iam-assumable-role-with-oidc"
-#   version = "~> 5.0"
-
-#   create_role                   = true
-#   role_name                     = "AmazonEKS_EBS_CSI_DriverRole"
-#   provider_url                  = replace(module.eks.cluster_oidc_issuer_url, "https://", "")
-#   role_policy_arns              = ["arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"]
-#   oidc_fully_qualified_subjects = ["system:serviceaccount:kube-system:ebs-csi-controller-sa"]
-# }
-
 module "iam_assumable_role_aws_cni_driver" {
   source  = "terraform-aws-modules/iam/aws//modules/iam-assumable-role-with-oidc"
-  version = "~> 5.0"
+  version = "5.11.2"
 
   create_role                   = true
   role_name                     = "AmazonEKSVPCCNIRole"

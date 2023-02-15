@@ -1,0 +1,15 @@
+logLevel: info
+sources:
+    - service
+    - ingress
+provider: aws
+policy: sync
+registry: txt
+txtOwnerId: ${owner_id}
+serviceAccount:
+    create: true
+    name: externaldns
+    annotations:
+        eks.amazonaws.com/role-arn: ${iam_role_arn}
+metrics:
+    enabled: true

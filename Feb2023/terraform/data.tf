@@ -15,3 +15,7 @@ data "aws_eks_cluster_auth" "cluster" {
     module.eks.cluster_name
   ]
 }
+
+data "aws_route53_zone" "public" {
+  name = var.dns_domain
+}
