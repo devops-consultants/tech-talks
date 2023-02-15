@@ -53,10 +53,7 @@ provider "aws" {
   }
 
   default_tags {
-    tags = {
-      Created_by = "Terraform"
-      Project    = "TechTalks"
-    }
+    tags = local.tags
   }
 }
 

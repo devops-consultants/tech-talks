@@ -24,8 +24,8 @@ variable "cluster_version" {
 locals {
   eks_name = "tech-talks"
   tags = {
-    Project   = "Tech-Talks"
-    Terraform = "true"
+    Created_by = "Terraform"
+    Project    = "TechTalks"
   }
 
 }
