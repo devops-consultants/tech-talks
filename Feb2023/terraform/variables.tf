@@ -6,7 +6,7 @@ variable "aws_account" {
 variable "iam_role" {
   type        = string
   description = "AWS IAM Role ARN to assume"
-  default     = "ciadmin"
+  default     = "techtalks"
 }
 
 variable "region" {
