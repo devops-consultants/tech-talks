@@ -6,7 +6,7 @@ resource "helm_release" "cluster_autoscaler" {
 
   values = [
     templatefile("${path.module}/templates/cluster-autoscaler-values.yaml", {
-      cluster_name         = module.eks.cluster_id
+      cluster_name         = module.eks.cluster_name
       aws_region           = var.region
       service_account_name = "cluster-autoscaler"
       role_arn             = module.iam_assumable_role_autoscaler.iam_role_arn
