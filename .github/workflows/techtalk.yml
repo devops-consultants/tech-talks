@@ -23,15 +23,18 @@ jobs:
         id: auth
         uses: teleport-actions/auth@v1
         with:
-          proxy: teleport.devops-consultants.net:443
+          proxy: teleport.devops-consultant.guru:443
           token: github-token
           certificate-ttl: 1h
 
       - name: List nodes
         run: tsh -i ${{ steps.auth.outputs.identity-file }} ls
 
+      - name: Check uptime
+        run: tsh -i ${{ steps.auth.outputs.identity-file }} root@qnapvm.home uptime
+
       - name: Check for updates
-        run: tsh -i ${{ steps.auth.outputs.identity-file }} ls | grep rpi | awk '{print $1}' | while read node; do echo "Checking ${node} for package updates:"; tsh -i ${{ steps.auth.outputs.identity-file }} ssh root@${node} apt update; done
+        run: tsh -i ${{ steps.auth.outputs.identity-file }} root@qnapvm.home yum check-update
 
   k8s_access:
     permissions:
@@ -54,9 +57,9 @@ jobs:
       - name: Fetch credentials using Machine ID
         uses: teleport-actions/auth-k8s@v1
         with:
-          proxy: teleport.devops-consultants.net:443
+          proxy: teleport.devops-consultant.guru:443
           token: github-token
-          kubernetes-cluster: teleport.devops-consultants.net
+          kubernetes-cluster: tech-talks
 
       - name: List pods
         run: kubectl get pods -A
