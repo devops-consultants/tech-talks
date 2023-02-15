@@ -111,7 +111,7 @@ spec:
     solvers:
       - selector:
           dnsZones:
-            - "uptimelabs.io"
+            - " ${data.aws_route53_zone.public.name}"
         dns01:
           cnameStrategy: Follow
           route53:
