@@ -348,15 +348,15 @@ resource "aws_kms_key" "eks" {
 #   }
 # }
 
-resource "aws_security_group_rule" "ingress_nodes_ephemeral" {
-  description       = "Node to node ingress on ephemeral ports"
-  protocol          = "tcp"
-  from_port         = 1025
-  to_port           = 65535
-  type              = "ingress"
-  self              = true
-  security_group_id = module.eks.node_security_group_id
-}
+# resource "aws_security_group_rule" "ingress_nodes_ephemeral" {
+#   description       = "Node to node ingress on ephemeral ports"
+#   protocol          = "tcp"
+#   from_port         = 1025
+#   to_port           = 65535
+#   type              = "ingress"
+#   self              = true
+#   security_group_id = module.eks.node_security_group_id
+# }
 
 # fix of kubectl describe apiservice v1beta1.metrics.k8s.io
 # Message: failing or missing response from https://<IP>:4443/apis/metrics.k8s.io/v1beta1:
