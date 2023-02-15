@@ -15,7 +15,7 @@ aws:
   dynamoAutoScaling: false                        # Whether Teleport should configure DynamoDB's autoscaling.
 highAvailability:
   replicaCount: 2                                 # Number of replicas to configure
-  requireAntiAffinity: true
+  requireAntiAffinity: false
   certManager:
     enabled: true                                 # Enable cert-manager support to get TLS certificates
     issuerName: ${issuer}                         # Name of the cert-manager Issuer to use (as configured above)
