@@ -1,0 +1,23 @@
+autoDiscovery:
+  enabled: true
+  clusterName: ${cluster_name}
+  
+cloudProvider: aws
+awsRegion: ${aws_region}
+
+rbac:
+  create: true
+  serviceAccount:
+    name: ${service_account_name}
+    annotations:
+      "eks.amazonaws.com/role-arn": ${role_arn}
+
+extraArgs:
+  logtostderr: true
+  stderrthreshold: info
+  v: 4
+  skip-nodes-with-system-pods: false
+  skip-nodes-with-local-storage: false
+  scale-down-delay-after-add: 5m
+  scale-down-utilization-threshold: 0.6
+  scale-down-unneeded-time: 5m
