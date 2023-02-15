@@ -5,7 +5,7 @@ metadata:
   namespace: default
 spec:
   dnsNames:
-    - podinfo.devops-consultants.net
+    - podinfo.devops-consultant.guru
   issuerRef:
     name: letsencrypt-prod-dns
     kind: ClusterIssuer

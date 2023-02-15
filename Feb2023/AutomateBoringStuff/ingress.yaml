@@ -7,7 +7,7 @@ metadata:
   namespace: default
 spec:
   rules:
-    - host: techtalks.devops-consultants.net
+    - host: techtalks.devops-consultant.guru
       http:
         paths:
           - backend:
@@ -19,5 +19,5 @@ spec:
             pathType: Prefix
   tls:
     - hosts:
-        - techtalks.devops-consultants.net
+        - techtalks.devops-consultant.guru
       secretName: techtalks-tls

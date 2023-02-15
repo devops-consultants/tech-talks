@@ -5,7 +5,7 @@ metadata:
   namespace: default
 spec:
   dnsNames:
-    - techtalks.devops-consultants.net
+    - techtalks.devops-consultant.guru
   issuerRef:
     name: letsencrypt-prod-dns
     kind: ClusterIssuer
