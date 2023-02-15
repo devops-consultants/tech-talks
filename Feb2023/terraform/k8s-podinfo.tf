@@ -12,7 +12,7 @@ resource "helm_release" "podinfo" {
   values = [
     templatefile("${path.module}/templates/podinfo-values.yaml", {
       ingress_fqdn = "podinfo.${data.aws_route53_zone.public.name}"
-      issuer       = local.cluster_issuer
+      issuer       = local.cluster_issuer_name
     })
   ]
 }
