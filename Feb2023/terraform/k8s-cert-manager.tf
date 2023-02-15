@@ -104,7 +104,7 @@ metadata:
   name: ${local.cluster_issuer_name}
 spec:
   acme:
-    email: aws+letsencrypt@uptimelabs.io
+    email: rob.coward@devops-consultants.co.uk
     server: https://acme-v02.api.letsencrypt.org/directory
     privateKeySecretRef:
       name: ${local.cluster_issuer_name}
