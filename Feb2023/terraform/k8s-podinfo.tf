@@ -1,21 +1,18 @@
 resource "helm_release" "podinfo" {
   name       = "pofinfo"
   namespace  = "default"
-  repository = "oci://ghcr.io/stefanprodan/charts/podinfo"
+  repository = "https://stefanprodan.github.io/podinfo"
   chart      = "podinfo"
-  version    = "0.21.0"
+  version    = "6.3.3"
 
   depends_on = [
     module.eks
   ]
 
-  set {
-    name  = "redis.enabled"
-    value = "true"
-  }
-
-  set {
-    name  = "replicaCount"
-    value = "3"
-  }
+  values = [
+    templatefile("${path.module}/templates/podinfo-values.yaml", {
+      ingress_fqdn = "podinfo.${data.aws_route53_zone.public.name}"
+      issuer       = local.cluster_issuer
+    })
+  ]
 }
