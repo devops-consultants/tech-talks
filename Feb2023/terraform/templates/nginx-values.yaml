@@ -1,0 +1,22 @@
+controller:
+  watchIngressWithoutClass: true
+  config:
+    enable-real-ip: true
+    use-forwarded-headers: true
+    proxy-add-original-uri-header: true
+    set_real_ip_from: ${vpc_cidr}
+    proxy-real-ip-cidr: ${vpc_cidr}
+  metrics:
+    enabled: true
+    service:
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "10254"
+  service:
+    externalTrafficPolicy: Local
+    annotations:
+      external-dns.alpha.kubernetes.io/hostname: ${ingress_fqdn}
+      service.beta.kubernetes.io/aws-load-balancer-proxy-protocol: "*"
+      service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enabled: "true"
+      service.beta.kubernetes.io/aws-load-balancer-backend-protocol: tcp
+      service.beta.kubernetes.io/aws-load-balancer-type: nlb

@@ -33,8 +33,11 @@ jobs:
       - name: Check uptime
         run: tsh -i ${{ steps.auth.outputs.identity-file }} ssh root@qnapvm.home uptime
 
-      - name: Check for updates
-        run: tsh -i ${{ steps.auth.outputs.identity-file }} ssh root@qnapvm.home yum check-update
+      - name: Check memory
+        run: tsh -i ${{ steps.auth.outputs.identity-file }} ssh root@qnapvm.home vmstat
+
+      - name: Check cpu
+        run: tsh -i ${{ steps.auth.outputs.identity-file }} ssh root@qnapvm.home cat /proc/cpuinfo
 
   k8s_access:
     permissions:
