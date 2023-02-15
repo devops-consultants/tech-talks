@@ -1,5 +1,5 @@
 resource "helm_release" "podinfo" {
-  name       = "pofinfo"
+  name       = "podinfo"
   namespace  = "default"
   repository = "https://stefanprodan.github.io/podinfo"
   chart      = "podinfo"
