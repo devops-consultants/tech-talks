@@ -32,3 +32,31 @@ jobs:
 
       - name: Check for updates
         run: tsh -i ${{ steps.auth.outputs.identity-file }} ls | grep rpi | awk '{print $1}' | while read node; do echo "Checking ${node} for package updates:"; tsh -i ${{ steps.auth.outputs.identity-file }} ssh root@${node} apt update; done
+
+  k8s_access:
+    permissions:
+      id-token: write
+      contents: read
+    name: K8S-Access
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Fetch kubectl
+        uses: azure/setup-kubectl@v3
+
+      - name: Fetch Teleport binaries
+        uses: teleport-actions/setup@v1
+        with:
+          version: 12.0.2
+
+      - name: Fetch credentials using Machine ID
+        uses: teleport-actions/auth-k8s@v1
+        with:
+          proxy: teleport.devops-consultants.net:443
+          token: github-token
+          kubernetes-cluster: teleport.devops-consultants.net
+
+      - name: List pods
+        run: kubectl get pods -A
