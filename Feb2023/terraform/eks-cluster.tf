@@ -101,7 +101,7 @@ module "eks" {
     }
   }
 
-  tags = local.tags
+  # tags = local.tags
 }
 
 ################################################################################
@@ -277,7 +277,7 @@ resource "aws_kms_key" "eks" {
   deletion_window_in_days = 7
   enable_key_rotation     = true
 
-  tags = local.tags
+  # tags = local.tags
 }
 # resource "aws_kms_key" "ebs" {
 #   #checkov:skip=CKV_AWS_7:"Ensure rotation for customer created CMKs is enabled"

@@ -24,5 +24,5 @@ module "vpc" {
     "kubernetes.io/role/internal-elb" = "1"
   }
 
-  tags = local.tags
+  # tags = local.tags
 }
