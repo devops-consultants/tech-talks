@@ -91,11 +91,7 @@ module "eks" {
           {
             instance_type     = "m5n.large"
             weighted_capacity = "1"
-          },
-          {
-            instance_type     = "m5zn.large"
-            weighted_capacity = "1"
-          },
+          }
         ]
       }
     }
@@ -252,25 +248,6 @@ module "iam_assumable_role_aws_cni_driver" {
   oidc_fully_qualified_subjects = ["system:serviceaccount:kube-system:aws-node"]
 }
 
-# data "aws_ami" "eks_default" {
-#   most_recent = true
-#   owners      = ["amazon"]
-
-#   filter {
-#     name   = "name"
-#     values = ["amazon-eks-node-${var.cluster_version}-v*"]
-#   }
-# }
-
-# resource "tls_private_key" "this" {
-#   algorithm = "RSA"
-# }
-
-# resource "aws_key_pair" "this" {
-#   key_name   = local.name
-#   public_key = tls_private_key.this.public_key_openssh
-# }
-
 resource "aws_kms_key" "eks" {
   #checkov:skip=CKV_AWS_7:"Ensure rotation for customer created CMKs is enabled"
   description             = "EKS Secret Encryption Key"
@@ -279,84 +256,6 @@ resource "aws_kms_key" "eks" {
 
   # tags = local.tags
 }
-# resource "aws_kms_key" "ebs" {
-#   #checkov:skip=CKV_AWS_7:"Ensure rotation for customer created CMKs is enabled"
-#   description             = "Customer managed key to encrypt self managed node group volumes"
-#   deletion_window_in_days = 7
-#   policy                  = data.aws_iam_policy_document.ebs.json
-# }
-
-# This policy is required for the KMS key used for EKS root volumes, so the cluster is allowed to enc/dec/attach encrypted EBS volumes
-# data "aws_iam_policy_document" "ebs" {
-#   # Copy of default KMS policy that lets you manage it
-#   #checkov:skip=CKV_AWS_111:"Ensure IAM policies does not allow write access without constraints"
-#   #checkov:skip=CKV_AWS_109:"Ensure IAM policies does not allow permissions management / resource exposure without constraints"
-#   statement {
-#     sid       = "Enable IAM User Permissions"
-#     actions   = ["kms:*"]
-#     resources = ["*"]
-
-#     principals {
-#       type        = "AWS"
-#       identifiers = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"]
-#     }
-#   }
-
-#   # Required for EKS
-#   statement {
-#     sid = "Allow service-linked role use of the CMK"
-#     actions = [
-#       "kms:Encrypt",
-#       "kms:Decrypt",
-#       "kms:ReEncrypt*",
-#       "kms:GenerateDataKey*",
-#       "kms:DescribeKey"
-#     ]
-#     resources = ["*"]
-
-#     principals {
-#       type = "AWS"
-#       identifiers = [
-#         "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/aws-service-role/autoscaling.amazonaws.com/AWSServiceRoleForAutoScaling",
-#         # required for the ASG to manage encrypted volumes for nodes
-#         module.eks.cluster_iam_role_arn,
-#         # required for the cluster / persistentvolume-controller to create encrypted PVCs
-#       ]
-#     }
-#   }
-
-#   statement {
-#     sid       = "Allow attachment of persistent resources"
-#     actions   = ["kms:CreateGrant"]
-#     resources = ["*"]
-
-#     principals {
-#       type = "AWS"
-#       identifiers = [
-#         "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/aws-service-role/autoscaling.amazonaws.com/AWSServiceRoleForAutoScaling",
-#         # required for the ASG to manage encrypted volumes for nodes
-#         module.eks.cluster_iam_role_arn,
-#         # required for the cluster / persistentvolume-controller to create encrypted PVCs
-#       ]
-#     }
-
-#     condition {
-#       test     = "Bool"
-#       variable = "kms:GrantIsForAWSResource"
-#       values   = ["true"]
-#     }
-#   }
-# }
-
-# resource "aws_security_group_rule" "ingress_nodes_ephemeral" {
-#   description       = "Node to node ingress on ephemeral ports"
-#   protocol          = "tcp"
-#   from_port         = 1025
-#   to_port           = 65535
-#   type              = "ingress"
-#   self              = true
-#   security_group_id = module.eks.node_security_group_id
-# }
 
 # fix of kubectl describe apiservice v1beta1.metrics.k8s.io
 # Message: failing or missing response from https://<IP>:4443/apis/metrics.k8s.io/v1beta1:
