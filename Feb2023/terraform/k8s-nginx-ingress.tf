@@ -18,10 +18,8 @@ resource "helm_release" "ingress_nginx" {
   namespace  = kubernetes_namespace.ingress_nginx.metadata[0].name
   values = [
     templatefile("${path.module}/templates/nginx-values.yaml", {
-      ingress_fqdn          = "core-ingress.${data.aws_route53_zone.public.name}"
-      internal_ingress_fqdn = "core-ingress.${data.aws_route53_zone.internal.name}"
-      vpc_cidr              = data.terraform_remote_state.coreinfra.outputs.vpc_cidr[0]
-      environment           = var.environment
+      ingress_fqdn = "core-ingress.${data.aws_route53_zone.public.name}"
+      vpc_cidr     = module.vpc.vpc_cidr_block
     })
   ]
 }
