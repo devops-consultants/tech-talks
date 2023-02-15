@@ -15,3 +15,17 @@ variable "region" {
   default     = "eu-west-2"
 }
 
+variable "cluster_version" {
+  description = "EKS Cluster version"
+  type        = string
+  default     = "1.24"
+}
+
+locals {
+  eks_name = "tech-talks"
+  tags = {
+    Project   = "Tech-Talks"
+    Terraform = "true"
+  }
+
+}

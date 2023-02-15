@@ -5,25 +5,30 @@ terraform {
       source  = "hashicorp/aws"
     }
 
-    # tls = {
-    #   version = ">= 3.0"
-    #   source  = "hashicorp/tls"
+    tls = {
+      version = "4.0.4"
+      source  = "hashicorp/tls"
+    }
+
+    cloudinit = {
+      version = "2.2.0"
+      source  = "hashicorp/cloudinit"
+    }
+
+    # kubernetes = {
+    #   version = ">= 2.10"
+    #   source  = "hashicorp/kubernetes"
     # }
 
-    kubernetes = {
-      version = ">= 2.10"
-      source  = "hashicorp/kubernetes"
-    }
+    # helm = {
+    #   source  = "hashicorp/helm"
+    #   version = ">= 2.4.1"
+    # }
 
-    helm = {
-      source  = "hashicorp/helm"
-      version = ">= 2.4.1"
-    }
-
-    kubectl = {
-      source  = "gavinbunney/kubectl"
-      version = ">= 1.7.0"
-    }
+    # kubectl = {
+    #   source  = "gavinbunney/kubectl"
+    #   version = ">= 1.7.0"
+    # }
 
     environment = {
       source  = "EppO/environment"
