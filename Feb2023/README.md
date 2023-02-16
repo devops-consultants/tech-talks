@@ -30,3 +30,10 @@ will create the following:
 * S3 bucket and DynamoDB to support the Teleport deployment
 * Various IAM policies & Roles used by the k8s service accounts for accessing the aws resources
 * Kubernetes deployments for Cluster Autoscaler, Node Termination Handler, External-DNS, Cert-Manager, Nginx Ingress Controller, Podman and Teleport
+
+---
+
+## GitHub Actions Pipeline
+
+The pipeline used to demo the passwordless `bot` connectivity through Teleport can be found in the `.github/workflows/techtalks.yml` file
+in the top level directory of this repository.
