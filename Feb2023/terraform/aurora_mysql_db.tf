@@ -38,7 +38,7 @@ module "techtalks_db" {
   preferred_backup_window = "02:00-03:00"
   skip_final_snapshot     = true
 
-  tags = local.tags
+  # tags = local.tags
 }
 
 resource "random_password" "techtalks_db_master" {
@@ -71,14 +71,14 @@ resource "aws_db_parameter_group" "techtalks_db" {
   name        = "techtalksdb"
   family      = "aurora-mysql8.0"
   description = "techtalksdb"
-  tags        = local.tags
+  # tags        = local.tags
 }
 
 resource "aws_rds_cluster_parameter_group" "techtalks_db" {
   name        = "techtalksdb-cluster"
   family      = "aurora-mysql8.0"
   description = "techtalksdb-cluster"
-  tags        = local.tags
+  # tags        = local.tags
 
   # parameter {
   #   name         = "innodb_file_format"
