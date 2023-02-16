@@ -215,3 +215,29 @@ resource "kubernetes_cluster_role_binding" "teleport_impersonation" {
     namespace = kubernetes_namespace.teleport.metadata[0].name
   }
 }
+
+resource "kubectl_manifest" "teleport_aws_poweruser_role" {
+  depends_on = [
+    helm_release.teleport
+  ]
+
+  yaml_body = templatefile("${path.module}/templates/teleport_aws_role.yaml", {
+    teleport_role = "AWS-PowerUser"
+    account       = data.aws_caller_identity.current.account_id
+    namespace     = kubernetes_namespace.teleport.metadata[0].name
+    iam_role_name = aws_iam_role.aws_console_power.name
+  })
+}
+
+resource "kubectl_manifest" "teleport_aws_readonly_role" {
+  depends_on = [
+    helm_release.teleport
+  ]
+
+  yaml_body = templatefile("${path.module}/templates/teleport_aws_role.yaml", {
+    teleport_role = "AWS-ReadOnly"
+    account       = data.aws_caller_identity.current.account_id
+    namespace     = kubernetes_namespace.teleport.metadata[0].name
+    iam_role_name = aws_iam_role.aws_console_readonly.name
+  })
+}
