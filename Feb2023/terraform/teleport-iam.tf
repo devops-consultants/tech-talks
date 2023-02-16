@@ -123,49 +123,6 @@ data "aws_iam_policy_document" "teleport_dynamodb" {
   }
 }
 
-resource "aws_iam_policy" "teleport_rds" {
-  name        = "teleport-rds"
-  path        = "/"
-  description = "Access to RDS resources for Teleport"
-
-  policy = data.aws_iam_policy_document.teleport_rds.json
-}
-
-data "aws_iam_policy_document" "teleport_rds" {
-  statement {
-    sid     = "dbconnect"
-    effect  = "Allow"
-    actions = ["rds-db:connect"]
-    #tfsec:ignore:aws-iam-no-policy-wildcards
-    resources = ["*"]
-  }
-
-  statement {
-    sid    = "describecluster"
-    effect = "Allow"
-    actions = [
-      "rds:DescribeDBClusters",
-      "rds:ModifyDBCluster",
-      "rds:DescribeDBInstances",
-      "rds:ModifyDBInstance"
-    ]
-    resources = ["*"]
-  }
-
-  statement {
-    sid    = "iamrolepolicy"
-    effect = "Allow"
-    actions = [
-      "iam:GetRolePolicy",
-      "iam:PutRolePolicy",
-      "iam:DeleteRolePolicy"
-    ]
-    resources = [
-      "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/teleport",
-      "arn:aws:iam::*:user/username"
-    ]
-  }
-}
 
 resource "aws_iam_policy" "teleport_secret" {
   name        = "teleport-secrets"
@@ -189,51 +146,51 @@ data "aws_iam_policy_document" "teleport_secret" {
   }
 }
 
-# resource "aws_iam_role" "aws_console_readonly" {
-#   name               = "TeleportReadOnly"
-#   assume_role_policy = <<EOF
-# {
-#   "Version": "2012-10-17",
-#   "Statement": [
-#     {
-#       "Sid": "",
-#       "Effect": "Allow",
-#       "Principal": {
-#         "AWS": "arn:aws:iam::${local.accounts_list["shared"]}:root"
-#       },
-#       "Action": "sts:AssumeRole"
-#     }
-#   ]
-# }
-# EOF
+resource "aws_iam_role" "aws_console_readonly" {
+  name               = "TeleportReadOnly"
+  assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "",
+      "Effect": "Allow",
+      "Principal": {
+        "AWS": "arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
+EOF
 
-#   managed_policy_arns = ["arn:aws:iam::aws:policy/ReadOnlyAccess"]
-#   tags = {
-#     Name = "Teleport AWS Console ReadOnly"
-#   }
-# }
+  managed_policy_arns = ["arn:aws:iam::aws:policy/ReadOnlyAccess"]
+  tags = {
+    Name = "Teleport AWS Console ReadOnly"
+  }
+}
 
-# resource "aws_iam_role" "aws_console_power" {
-#   name               = "TeleportPowerUser"
-#   assume_role_policy = <<EOF
-# {
-#   "Version": "2012-10-17",
-#   "Statement": [
-#     {
-#       "Sid": "",
-#       "Effect": "Allow",
-#       "Principal": {
-#         "AWS": "arn:aws:iam::${local.accounts_list["shared"]}:root"
-#       },
-#       "Action": "sts:AssumeRole"
-#     }
-#   ]
-# }
-# EOF
+resource "aws_iam_role" "aws_console_power" {
+  name               = "TeleportPowerUser"
+  assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "",
+      "Effect": "Allow",
+      "Principal": {
+        "AWS": "arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
+EOF
 
-#   managed_policy_arns = ["arn:aws:iam::aws:policy/PowerUserAccess"]
-#   tags = {
-#     Name = "Teleport AWS Console PowerUser"
-#   }
-# }
+  managed_policy_arns = ["arn:aws:iam::aws:policy/PowerUserAccess"]
+  tags = {
+    Name = "Teleport AWS Console PowerUser"
+  }
+}
 

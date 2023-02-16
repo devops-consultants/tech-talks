@@ -1,0 +1,24 @@
+proxyAddr: ${teleport_proxy}
+authToken: iam-token
+joinParams:
+  tokenName: iam-token
+  method: iam
+roles: app,db
+serviceAccount:
+  name: ${service_account}
+annotations:
+  serviceAccount:
+    eks.amazonaws.com/role-arn: ${role_arn}
+
+awsDatabases:
+- types: ["rds"]
+  regions: ["eu-west-2"]
+  tags:
+    "*": "*"
+
+apps:
+  - name: "awsconsole"
+    uri: "https://console.aws.amazon.com/ec2/v2/home"
+    labels:
+      aws_account_id: ${account_id}
+
