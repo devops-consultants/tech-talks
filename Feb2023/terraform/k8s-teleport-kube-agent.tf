@@ -18,7 +18,7 @@ resource "helm_release" "teleport_kube_agent" {
 
 module "iam_assumable_role_teleport_agent" {
   source  = "terraform-aws-modules/iam/aws//modules/iam-assumable-role-with-oidc"
-  version = "5.11.2"
+  version = "5.13.0"
 
   create_role  = true
   role_name    = "teleport-kube-agent"
