@@ -1,6 +1,6 @@
 module "techtalks_db" {
   source  = "terraform-aws-modules/rds-aurora/aws"
-  version = "7.6.0"
+  version = "7.7.1"
 
   name           = "tech-talks"
   engine         = "aurora-mysql"
