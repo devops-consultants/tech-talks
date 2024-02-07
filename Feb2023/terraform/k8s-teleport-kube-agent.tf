@@ -3,7 +3,7 @@ resource "helm_release" "teleport_kube_agent" {
   namespace        = "teleport-agent"
   repository       = "https://charts.releases.teleport.dev"
   chart            = "teleport-kube-agent"
-  version          = "12.0.2"
+  version          = "12.4.34"
   create_namespace = true
 
   values = [
