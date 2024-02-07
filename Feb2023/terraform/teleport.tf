@@ -139,7 +139,7 @@ resource "helm_release" "teleport" {
   namespace  = kubernetes_namespace.teleport.metadata[0].name
   repository = "https://charts.releases.teleport.dev"
   chart      = "teleport-cluster"
-  version    = "12.0.2"
+  version    = "12.4.34"
 
   values = [
     templatefile("${path.module}/templates/teleport-values.yaml", {
