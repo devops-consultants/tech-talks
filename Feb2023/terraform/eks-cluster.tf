@@ -176,7 +176,7 @@ resource "helm_release" "aws_cni" {
   namespace    = "kube-system"
   repository   = "https://aws.github.io/eks-charts"
   chart        = "aws-vpc-cni"
-  version      = "1.2.6"
+  version      = "1.18.5"
   force_update = true
 
   depends_on = [
