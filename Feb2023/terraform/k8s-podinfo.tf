@@ -3,7 +3,7 @@ resource "helm_release" "podinfo" {
   namespace  = "default"
   repository = "https://stefanprodan.github.io/podinfo"
   chart      = "podinfo"
-  version    = "6.3.3"
+  version    = "6.7.1"
 
   depends_on = [
     module.eks
