@@ -30,7 +30,7 @@ resource "helm_release" "external-dns" {
 
 module "iam_assumable_role_external_dns" {
   source  = "terraform-aws-modules/iam/aws//modules/iam-assumable-role-with-oidc"
-  version = "5.11.2"
+  version = "5.47.1"
 
   create_role                   = true
   role_name                     = "external-dns"
