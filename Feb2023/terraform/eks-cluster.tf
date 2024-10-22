@@ -217,7 +217,7 @@ resource "helm_release" "aws_cni" {
 
 module "iam_assumable_role_aws_cni_driver" {
   source  = "terraform-aws-modules/iam/aws//modules/iam-assumable-role-with-oidc"
-  version = "5.11.2"
+  version = "5.47.1"
 
   create_role                   = true
   role_name                     = "AmazonEKSVPCCNIRole"
